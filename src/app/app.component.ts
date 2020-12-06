@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CounterService } from './counter.service';
 import { UsersService } from './users.service';
 
 @Component({
@@ -9,19 +10,19 @@ import { UsersService } from './users.service';
 export class AppComponent implements OnInit { 
   activeUsers: string[];
   inactiveUsers: string[];
+  activeToInactive: number;
+  inactiveToActive: number;
 
-  constructor(private usersService: UsersService) { }
+
+  constructor(
+    private usersService: UsersService) {
+        this.usersService.countUpdated.subscribe(
+          (message: string) => alert(message)
+        );
+     }
 
   ngOnInit() {
     this.activeUsers = this.usersService.activeUsers;
     this.inactiveUsers = this.usersService.inactiveUsers;
-  }
-
-  onSetToInactive(id: number) {
-    this.usersService.onSetToActive(id);
-  }
-
-  onSetToActive(id: number) {
-    this.usersService.onSetToInactive(id);
   }
 }
